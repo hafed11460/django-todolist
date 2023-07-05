@@ -78,5 +78,3 @@ class TodoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def about(request):
-    return render(request, 'todo/about.html', {'title': 'About'})
