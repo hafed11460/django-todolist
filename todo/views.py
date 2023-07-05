@@ -11,7 +11,7 @@ from django.views.generic import (
 
 from .models import TodoItem
 
-page_count = 1
+page_count = 10
 
 def home(request):
     context = {
@@ -24,7 +24,7 @@ class TodoListView(ListView):
     model = TodoItem
     template_name = 'todo/index.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'objects'
-    ordering = ['-pk']
+    ordering = ['pk']
     paginate_by = page_count
 
 
@@ -36,7 +36,7 @@ class UserTodoListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return TodoItem.objects.filter(author=user).order_by('-pk')
+        return TodoItem.objects.filter(author=user).order_by('pk')
 
 
 class TodoDetailView(DetailView):
@@ -54,7 +54,7 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = TodoItem
-    fields = ['title', 'description']
+    fields = ['title', 'description','status']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
